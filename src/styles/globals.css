@@ -1,5 +1,5 @@
 :root {
-  --background: #ffffff;
+  --background: rgb(222, 222, 222);
   --foreground: #171717;
 }
 
@@ -8,6 +8,11 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+@font-face {
+  font-family: 'TT Norms Pro';
+  src: url('../pages/fonts/TT Norms Pro Bold.otf');
 }
 
 html,
@@ -39,4 +44,21 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.sidemenu {
+  width: 240px;
+  background-color: rgb(203, 203, 203);
+  height: 100vh;
+  text-align: center; 
+  font-weight: bold;
+  color: black;
+  padding-top: 30px;
+  font-family: 'TT Norms Pro';
+  font-size:x-large;
+}
+
+.myDiv {
+  display: flex;
+  flex-direction: row;
 }
