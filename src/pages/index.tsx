@@ -24,13 +24,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <aside className="sidemenu">
+        <div style={{ height: "20px" }}></div>
         <Image
           aria-hidden
           src="/globe.svg"
           alt="Globe icon"
-          width={20}
-          height={20}
-        /> VERA
+          width={50}
+          height={50}
+          style={{ fill: "rgba(0, 0, 0, 0.9)" }}
+        /> <p><span style={{ color: "rgba(0, 0, 0, 0.5)" }}>VERA</span></p>
+        <div style={{ height: "20px" }}></div>
+        <div className="new-textbook"><span>+ </span>NEW TEXTBOOK</div>
       </aside>
       <div
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}

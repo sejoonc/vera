@@ -1,5 +1,5 @@
 :root {
-  --background: rgb(222, 222, 222);
+  --background: rgb(241, 241, 241);
   --foreground: #171717;
 }
 
@@ -47,8 +47,8 @@ a {
 }
 
 .sidemenu {
-  width: 240px;
-  background-color: rgb(203, 203, 203);
+  width: 280px;
+  background-color: rgb(220, 220, 220);
   height: 100vh;
   text-align: center; 
   font-weight: bold;
@@ -56,6 +56,20 @@ a {
   padding-top: 30px;
   font-family: 'TT Norms Pro';
   font-size:x-large;
+  padding: 10px;
+}
+
+.new-textbook {
+  font-size: medium;
+  color: white;
+  padding: 13px;
+  background-color: rgb(116, 181, 121);
+  border-radius: 10px;
+  border: 1.3px solid white
+}
+
+.new-textbook:hover {
+  background-color: rgba(116, 181, 121, 0.8)
 }
 
 .myDiv {
