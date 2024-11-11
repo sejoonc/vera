@@ -127,19 +127,19 @@ Run it like: python <your file>.py "your message here" --endpoint "your_endpoint
     # return message, warning, context
     
     # Generate warning and confidence score
-    output = rag_extended.generate_confidence_and_warning(message, context, warning)
-    print(json.dumps(output, indent=4))
+    # output = rag_extended.generate_confidence_and_warning(message, context, warning)
+    # print(json.dumps(output, indent=4))
     
-    result = {
-        "RAG Response": rag_response,
-        "Average Cosine Similarity": avg_cosine,
-        "Average BLEU Score": avg_bleu,
-        "Average ROUGE Score": avg_rouge,
-        "Confidence Score": confidence_score,
-        "Historical Bias": historical_bias,
-        "Wikipedia Consistency": wiki_consistency,
-        "Generated Warning": warning or "Seems good"
-    }
+    # result = {
+    #     "RAG Response": rag_response,
+    #     "Average Cosine Similarity": avg_cosine,
+    #     "Average BLEU Score": avg_bleu,
+    #     "Average ROUGE Score": avg_rouge,
+    #     "Confidence Score": confidence_score,
+    #     "Historical Bias": historical_bias,
+    #     "Wikipedia Consistency": wiki_consistency,
+    #     "Generated Warning": warning or "Seems good"
+    # }
    
     print("-" * 20)
     for key, value in result.items():

@@ -11,6 +11,7 @@ pip install --upgrade pip
 pip install spacy requests openai scikit-learn sentence-transformers nltk rouge python-dotenv
 python -m pip install langflow -U
 python3 -m spacy download en_core_web_sm
+npm install next
 
 echo "Setup complete. To start using the environment, run:"
 echo "source rag_env/bin/activate"
