@@ -115,14 +115,21 @@ Run it like: python <your file>.py "your message here" --endpoint "your_endpoint
     warning = response["outputs"][0]["outputs"][1]["results"]["message"]["text"]
     context = response["outputs"][0]["outputs"][2]["results"]["message"]["text"]
 
-    
-    print(json.dumps(response, indent=2))
-    print("-" * 20)
-    print("message:", message)
-    print("-" * 20)
-    print("warning:", warning)
-    print("-" * 20)
-    print("context:", context)
+    output_data = {
+        "message": message,
+        "warning": warning,
+        "context": context
+    }
+
+    print(json.dumps(output_data, indent=2))
+
+    # print(json.dumps(response, indent=2))
+    # print("-" * 20)
+    # print("message:", message)
+    # print("-" * 20)
+    # print("warning:", warning)
+    # print("-" * 20)
+    # print("context:", context)
     
     # return message, warning, context
     
@@ -141,10 +148,10 @@ Run it like: python <your file>.py "your message here" --endpoint "your_endpoint
     #     "Generated Warning": warning or "Seems good"
     # }
    
-    print("-" * 20)
-    for key, value in result.items():
-        print(f"{key}: {value}")
-    print("-" * 20)
+    # print("-" * 20)
+    # for key, value in result.items():
+    #     print(f"{key}: {value}")
+    # print("-" * 20)
 
 
 if __name__ == "__main__":
