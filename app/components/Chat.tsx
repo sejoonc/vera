@@ -7,12 +7,6 @@ const Chat = () => {
     api: "/api/openai",
   });
 
-  // Log the messages state
-  console.log("Messages:", messages);
-
-  // Log the input state
-  console.log("Input:", input);
-
   const chatContainer = useRef<HTMLDivElement>(null);
 
   const scroll = () => {

@@ -119,10 +119,10 @@ async function main(
   outputType = "chat",
   stream = false
 ) {
-  const flowIdOrName = "7bb2a61a-2a4b-4c9c-9a43-bf08ccf7af3f";
+  const flowIdOrName = "d6dc78f9-f939-4cbd-b632-9df278371c45";
   const langflowId = "acd98639-73f2-48ed-ae2f-73ea870300fb";
   const applicationToken =
-    "AstraCS:LfYONPlUuZYFdNhskMOFqAPB:30b074fbf8b963c56ca773bed82075ab21ce60a8b841daef5b2157279d99b6e8";
+    "AstraCS:ORoGcUCJgcslnphbdowvvOwg:137770050935bd125c90c368ec5c67bdefedde94cddffb73df2ae3dd678361d7";
   const langflowClient = new LangflowClient(
     "https://api.langflow.astra.datastax.com",
     applicationToken
