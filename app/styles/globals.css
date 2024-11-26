@@ -240,16 +240,23 @@ h1 {
   box-shadow: 0 0 30px #ffe80e;
 }
 
+.chat {
+  position: relative; /* Make this the reference point for absolute positioning */
+}
+
 .chat-form {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 700px;
-  margin: 30px auto;
+  width: 100%;
+  /* margin: 30px auto; */
   box-sizing: border-box;
   padding-left: 70px;
   padding-right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chat-form input[type="text"] {

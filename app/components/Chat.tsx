@@ -64,6 +64,16 @@ const Chat = () => {
         />
         <button type="submit" className="send-button" />
       </form>
+      {/* <footer
+        style={{
+          textAlign: "center",
+          fontSize: "14px",
+          color: "gray",
+          marginTop: "10px",
+        }}
+      >
+        <p>Vera can make mistakes. Please double-check responses.</p>
+      </footer> */}
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
+// set condition
+let hallucination_condition = "0"; // 0 = no hallucination; 1 = low hallucination; 2 = high hallucination
+
 // Langflow Component
 class LangflowClient {
   baseURL: string;
@@ -102,7 +105,24 @@ export const runtime = "edge";
 export async function POST(req: Request, res: Response) {
   // Langflow context retrival
   const { messages } = await req.json();
-  const inputValue = messages.map((msg) => msg.content).join(" ");
+  const messagesLength = messages.length;
+  console.log("current Length:", messagesLength);
+
+  // the 7-12 questions with low hallucination
+  if (messagesLength >= 13 && messagesLength <= 24) {
+    hallucination_condition = "1";
+  }
+
+  // the 13-18 questions with high hallucination
+  if (messagesLength > 24) {
+    hallucination_condition = "2";
+  }
+
+  // The commented line below get all past messages
+  // const inputValue = messages.map((msg) => msg.content).join(" ");
+
+  // This version only input the last message (most recent one sent by the user)
+  const inputValue = messages[messages.length - 1]?.content || "";
   const inputType = "chat";
   const outputType = "chat";
   const stream = false;
@@ -142,15 +162,73 @@ export async function POST(req: Request, res: Response) {
       (message) => console.log("Stream Closed:", message), // onClose
       (error) => console.log("Stream Error:", error) // onError
     );
+    console.log("This is the Input!", inputValue);
     if (!stream && response && response.outputs) {
       const contextOutput =
         response.outputs[0].outputs[0].outputs.message.message.text;
-      // console.log("Got Context Output!", contextOutput);
+      console.log("Got Context Output!", contextOutput);
       // console.log("Type of contextOutput:", typeof contextOutput);
 
       let jsonOutput = JSON.parse(contextOutput);
-      // console.log("Textbook Reference", jsonOutput["Relevant information"]);
-      // console.log("Warning", jsonOutput["Warning message"]);
+      let context = jsonOutput["Relevant textbook information"];
+      console.log("Textbook Reference", context);
+
+      const no_hallucination_prompt = `
+      You are a helpful US history teacher that answers your student's question based on the retrieved textbook information context.
+      You go straight to the point, your replies are under 500 characters. DON'T USE ANY EMOJIS in your replies!
+      Answer the question based on your context. 
+      
+      -----
+      Retrieved textbook information context: ${context}
+      Remember to mention the Textbook Reference, if they are not empty.
+
+      -----
+      Output format:
+      <Your answer>
+
+      Textbook Reference Quote: ${context}
+      
+      `;
+
+      const low_hallucination_prompt = `
+      Choose the plausible but incorrect response. You can make a slight change of the historical time or location, or the sequence of events, etc. Try to make it plausible.
+      GIVE PLAUSIBLE INCORRECT ANSWER. Make sure the answer is WRONG.
+      Your replies are under 500 characters. DON'T USE ANY EMOJIS in your replies!
+      -----
+      Retrieved textbook information context: ${context}
+
+      -----
+      Output format:
+      <Your plausible but INCORRECT answer. Choose a WRONG answer.>
+
+      Textbook Reference Quote: <generate a short textbook reference given your factually incorrect answer. >
+      `;
+
+      const high_hallucination_prompt = `
+      Choose the wrong response. You can make a major change of the historical time or location, or the sequence of events, etc. Try to make it very obvious.
+      GIVE INCORRECT ANSWER. GIVE CRAZY WRONG RESPONSE.
+      Your replies are under 500 characters. DON'T USE ANY EMOJIS in your replies!
+      -----
+      Retrieved textbook information context: ${context}
+
+      -----
+      Output format:
+      <Your WRONG answer. Choose an INCORRECT ANSWER to the user's question.>
+
+      Textbook Reference Quote: <generate a short crazy textbook reference given your factually incorrect answer. Add CRAZY stuffs that are OBVIOUSLY INCORRECT. >
+      `;
+
+      let prompt =
+        hallucination_condition === "0"
+          ? no_hallucination_prompt
+          : hallucination_condition === "1"
+          ? low_hallucination_prompt
+          : hallucination_condition === "2"
+          ? high_hallucination_prompt
+          : "";
+
+      console.log("hallucination condition", hallucination_condition);
+      console.log("current prompt", prompt);
 
       try {
         const openaiResponse = await openai.chat.completions.create({
@@ -158,23 +236,12 @@ export async function POST(req: Request, res: Response) {
           messages: [
             {
               role: "system",
-              content: `You are a helpful teacher that explains textbook ideas to your student.
-              Answer the question based on your context. You go straight to the point, your replies are under 500 characters.
-              DON'T USE ANY EMOJIS in your replies!
-              You have the following context: ${contextOutput}
-              Remember to mention the Textbook Reference and Warning, if they are not empty.
-
-              Output format:
-              <Your answer>
-
-              Textbook Reference: ${jsonOutput["Relevant information"]}
-
-              Warning: ${jsonOutput["Warning message"]}
-              `,
+              content: prompt,
             },
             ...messages,
           ],
           stream: true,
+          // temperature: 0.1, // deterministic response
         });
 
         const stream = OpenAIStream(openaiResponse);
