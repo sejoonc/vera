@@ -64,7 +64,7 @@ const Chat = () => {
         />
         <button type="submit" className="send-button" />
       </form>
-      {/* <footer
+      <footer
         style={{
           textAlign: "center",
           fontSize: "14px",
@@ -73,7 +73,7 @@ const Chat = () => {
         }}
       >
         <p>Vera can make mistakes. Please double-check responses.</p>
-      </footer> */}
+      </footer>
     </div>
   );
 };
